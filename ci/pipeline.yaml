@@ -2,16 +2,16 @@ resources:
   - name: my-source-code
     type: git
     source:
-      uri: <URL_DU_REPO_GIT>
-      branch: <BRANCHE_DU_REPO>
+      uri: https://github.com/Trezeguet-tech/api-calculate.git
+      branch: main
 
   - name: my-gradle-repo
     type: artifactory
     source:
-      url: <URL_DE_VOTRE_REPO_JFROG>
-      username: ((jfrog_username))
-      password: ((jfrog_password))
-      repository: <NOM_DE_VOTRE_REPO_GRADLE>
+      url: https://tkwebtech.jfrog.io/artifactory/gradle/gradle-local
+      username: kadt2022@gmail.com
+      password: cmVmdGtuOjAxOjE3Mzk4MzI0MzM6ZmxTbkNRbmFRZTZ6ZEVaREZ2MlhmZnRBSW9W
+      repository: gradle-local
       package_type: gradle
 
 jobs:
