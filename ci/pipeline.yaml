@@ -4,6 +4,8 @@ resources:
     source:
       uri: https://github.com/Trezeguet-tech/api-calculate.git
       branch: main
+      username: djtm.kb@gmail.com
+      password: hjuyytfbbb
 
   - name: my-gradle-repo
     type: artifactory
@@ -37,8 +39,10 @@ jobs:
               - -exc
               - |
                 cd my-source-code
-                ./gradlew clean assemble
-                mv build/libs/*.jar ../build-output/
+                chmod +x gradlew  # Grant execute permission to gradlew
+                ./gradlew clean build  # Run Gradle build
+                mkdir -p ../build-output  # Create build-output directory if not exists
+                mv build/libs/*.jar ../build-output/  # Move JAR files to build-output directory
       - put: my-gradle-repo
         params:
           file: build-output/*.jar
