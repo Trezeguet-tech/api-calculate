@@ -1,0 +1,44 @@
+resources:
+  - name: my-source-code
+    type: git
+    source:
+      uri: <URL_DU_REPO_GIT>
+      branch: <BRANCHE_DU_REPO>
+
+  - name: my-gradle-repo
+    type: artifactory
+    source:
+      url: <URL_DE_VOTRE_REPO_JFROG>
+      username: ((jfrog_username))
+      password: ((jfrog_password))
+      repository: <NOM_DE_VOTRE_REPO_GRADLE>
+      package_type: gradle
+
+jobs:
+  - name: build-and-publish
+    plan:
+      - get: my-source-code
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: maven
+              tag: '3.8.4-openjdk-17'
+          inputs:
+            - name: my-source-code
+          outputs:
+            - name: build-output
+          run:
+            path: /bin/sh
+            args:
+              - -exc
+              - |
+                cd my-source-code
+                ./gradlew clean assemble
+                mv build/libs/*.jar ../build-output/
+      - put: my-gradle-repo
+        params:
+          file: build-output/*.jar
